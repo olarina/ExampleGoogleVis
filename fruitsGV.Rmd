@@ -1,0 +1,22 @@
+---
+title: "Fruits"
+author: "Olga Larina"
+date: "8/23/2019"
+output:
+    html_document:
+        self_contained: no
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Motion chart
+
+```{r, echo=FALSE, results = "asis", message=FALSE}
+suppressPackageStartupMessages(library(googleVis))
+M = gvisMotionChart(Fruits, "Fruit", "Year", option = list(width = 600, height = 400))
+##print(M, "chart")
+print(M)
+```
+
