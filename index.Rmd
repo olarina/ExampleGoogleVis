@@ -1,5 +1,5 @@
 ---
-title: "Fruits"
+title: "googleVis examples"
 author: "Olga Larina"
 date: "8/23/2019"
 output:
@@ -10,13 +10,94 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+## Introduction
+These are examples from lectures from Developing Data Products Coursera course.
 
 ## Motion chart
 
 ```{r, echo=FALSE, results = "asis", message=FALSE}
 suppressPackageStartupMessages(library(googleVis))
-M = gvisMotionChart(Fruits, "Fruit", "Year", option = list(width = 600, height = 400))
+M = gvisMotionChart(Fruits, "Fruit", "Year", options = list(width = 600, height = 400))
 print(M, "chart")
-##print(M)
 ```
+
+## Interactive map
+
+```{r, echo=FALSE, results = "asis", message=FALSE}
+G = gvisGeoChart(Exports, locationvar = "Country", colorvar = "Profit", options = list(width = 600, height = 400))
+print(G, "chart")
+```
+
+## Interactive map with specified region
+
+```{r, echo=FALSE, results = "asis", message=FALSE}
+G2 = gvisGeoChart(Exports, locationvar = "Country", colorvar = "Profit", options = list(width = 600,
+                                                                                      height = 400,
+                                                                                      region = "150"))
+print(G2, "chart")
+```
+
+## Setting more options
+```{r, results = "asis"}
+df = data.frame(label = c("US", "UK", "BR"), val1 = c(1,2,3), val2 = c(23,12,32))
+Line = gvisLineChart(df, xvar = "label", yvar = c("val1", "val2"),
+                     options = list(title = "Hello World!", legend = "bottom",
+                     titleTextStyle = "{color:'red', fontSize:18}",
+                     vAxis = "{gridlines:{color:'red', count:3}}",
+                     hAxis = "{title:'My label', titleTextStyle:{color:'blue'}}",
+                     series = "[{color:'green',targetAxisIndex:0},{color:'blue',targetAxisIndex:1}]",
+                     vAxes = "[{title: 'Value 1', format:'##,######%'},
+                                {title: 'Value 2 (\U00A3)'}]",
+                     curveType = "function", width = 500, height = 300
+                     ))
+print(Line, "chart")
+```
+
+## Combining multiple plots together
+```{r, echo=FALSE, results = "asis", message=FALSE}
+G1 = gvisGeoChart(Exports, locationvar = "Country", colorvar = "Profit", options = list(width = 200, height = 100))
+T1 = gvisTable(Exports, options = list(width = 200, height = 270))
+M1 = gvisMotionChart(Fruits, "Fruit", "Year", options = list(width = 400, height = 370))
+GT = gvisMerge(G1, T1, horizontal = F)
+GTM = gvisMerge(GT, M1, horizontal = T, tableOptions = "bgcolor=\"#CCCCCC\" cellspacing = 10")
+print(GTM, "chart")
+```
+
+## Speed bar
+```{r, echo=FALSE, results = "asis", message=FALSE}
+library(dplyr)
+m = aggregate(mpg~cyl, mean, data = mtcars) %>%
+    transform(cyl = as.character(cyl))
+g = gvisGauge(m, labelvar = "cyl", options = list(
+    min = 0, max = 45,
+    greenFrom = 30, greenTo = 45,
+    yellowFrom = 20, yellowTo = 30,
+    redFrom = 0, redTo = 20,
+    width = 500, height = 300
+))
+print(g, "chart")
+```
+
+## One more map
+```{r, echo=FALSE, results = "asis", message=FALSE}
+stateDF = data.frame(State = state.name, state.x77)
+gchart = gvisGeoChart(data = stateDF,
+                      locationvar = "State",
+                      colorvar = "Population",
+                      options = list(region="US",
+                                     displayMode="regions",
+                                     resolution="provinces",
+                                     width=600, height=400))
+print(gchart, "chart")
+```
+
+
+
+
+
+
+
+
+
+
 
