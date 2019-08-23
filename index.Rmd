@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r, echo=FALSE, results = "asis", message=FALSE}
 suppressPackageStartupMessages(library(googleVis))
 M = gvisMotionChart(Fruits, "Fruit", "Year", option = list(width = 600, height = 400))
-##print(M, "chart")
-print(M)
+print(M, "chart")
+##print(M)
 ```
 
